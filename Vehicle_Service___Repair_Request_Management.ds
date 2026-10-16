@@ -1,0 +1,1311 @@
+/*
+ * Author       : arjun.k.2024.aiml_rajalak
+ * Generated on : 16-Oct-2026 11:09:01
+ * Version      : 1.0
+ */
+ application "Vehicle Service & Repair Request Management"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form AI_Fields
+		{
+			displayname = "AI Fields"
+			success message = "Ai Field Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Image
+			(
+    			type = image
+				source  = file
+				aspect ratio = original
+				camera = primary
+				show gallery = true
+				switch camera = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			OCR
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = OCR
+									basefield = Image
+						)
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+				browse = local_drive
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			OCR1
+			(
+    			type = textarea
+				displayname = "OCR"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = OCR
+									basefield = File_upload
+						)
+			)
+			Feedback_analysis
+			(
+    			type = text
+				displayname = "Feedback analysis"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Sentiment
+			(
+				type = picklist
+				displayname = "Sentiment analysis through feedback"
+				maxchar = 100
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = SentimentAnalysis
+									basefield = Feedback_analysis
+						)
+			)
+			Paragraph_analysis
+			(
+    			type = textarea
+				displayname = "Paragraph analysis"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Keyword
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = KeywordExtractor
+									basefield = Paragraph_analysis
+						)
+			)
+			object_detection
+			(
+    			type = image
+				source  = file
+				aspect ratio = original
+				camera = primary
+				show gallery = true
+				switch camera = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Object_Detection1
+			(
+    			type = textarea
+				displayname = "Object Detection"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = ObjectDetection
+									basefield = object_detection
+						)
+			)
+			SERVICE_HISTORY
+			(
+				type = picklist
+				displayname = "SERVICE HISTORY"
+				maxchar = 100
+				values = {"OIL CHANGE","HEADLIGHT RESTORATION","BRAKE CHANGE"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			SOLUTION_USED
+			(
+				type = picklist
+				displayname = "SOLUTION USED"
+				maxchar = 100
+				values = {"Choice 1","Choice 2","Choice 3"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			VEHICAL_COMPANY
+			(
+				type = picklist
+				displayname = "VEHICAL COMPANY"
+				maxchar = 100
+				values = {"Choice 1","Choice 2","Choice 3"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			COMMON_PROBLEM_Prediction
+			(
+    			type = text
+				displayname = "COMMON PROBLEM Prediction"
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = Prediction
+									modelname = "Vehicle_service_and_repair_csv"
+									supportingfield = {SERVICE_HISTORY,SOLUTION_USED,VEHICAL_COMPANY}
+						)
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Service_Request_Form
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Address
+			(
+    			type = address
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Owner_Details
+			(
+				type = section
+				displayname = "Owner Details"
+				visibility = true
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			must have Owner_Name
+			(
+    			type = name
+				displayname = "Owner Name (first name)"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 2
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Vehicle_Registration_Number
+			(
+    			type = text
+				displayname = "Vehicle Registration Number"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			must have Vehicle_Type
+			(
+				type = picklist
+				displayname = "Vehicle Type"
+				maxchar = 100
+				values = {"Hatchback","Sedan","SUV","MUV","Pickup Truck","Other"}
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Vehicle_Insurance_URL
+			(
+    			type = url
+				displayname = "Vehicle Insurance URL"
+				enable  linkname
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Section2
+			(
+				type = section
+				displayname = "Contact Details"
+				visibility = true
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			must have Email_Address
+			(
+    			type = email
+				displayname = "Email Address"
+				maxchar = 80
+	 			row = 3
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Contact
+			(
+    			type = phonenumber
+				displayname = "Contact Number"
+	 			row = 3
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Pickup_Address
+			(
+    			type = address
+				displayname = "Pickup Address"
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 3
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Owner_Digital_Signature
+			(
+    			type = signature
+				displayname = "Owner Digital Signature"
+	 			row = 3
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Section3
+			(
+				type = section
+				displayname = "Vehicle & Issue Details"
+				visibility = true
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			Odometer_Reading
+			(
+				type = number
+				displayname = "Odometer Reading"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			must have Service_Type
+			(
+				type = radiobuttons
+				displayname = "Service Type"
+				maxchar = 100
+				values = {"Routine Service","Breakdown Repair","Accident Repair"}
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Additonal_Service
+			(
+				type = list	
+				displayname = "Additonal Services"
+				values = {"Car Wash","Interior Cleaning","Tyre Rotation","AC Check","Wheel Alignment","Oil Change"}
+				height = 60px
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Issue_Description
+			(
+    			type = textarea
+				displayname = "Issue Description"
+				height = 100px
+    			description
+    			[
+    				type = help_text
+    			 	message = "Unusual grinding noise from the front brakes\nand reduced mileage over the last week."
+    			]
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Scheduling_Autherization
+			(
+				type = section
+				displayname = "Scheduling & Autherization"
+				visibility = true
+	 			row = 5
+	 			column = 0   
+				width = medium
+			)
+			Preferred_Service_Date
+			(
+    			type = date
+				displayname = "Preferred Service Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			Preferred_Dropoff_Time
+			(
+    			type = time
+				displayname = "Preferred Drop-off Time"
+				initial value = "${zoho.currenttime}"	
+				timedisplayoptions = "hh:mm" 
+    			description
+    			[
+    				type = help_text
+    			 	message = "9.00 AM"
+    			]
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			must have Authorize_Estimate_And_Repair
+			(
+				type = checkboxes	
+				displayname = "Autherization Checkbox"
+				values = {"I authorize the service center to prepare an estimate and proceed with the work"}
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Requested","start diagnosis","In diagnosis","start repair","In repair","Mark Ready for Pickup","Ready for pickup","Mark Delivered","Delivered"}
+			}
+		}
+	}
+	reports
+	{
+		default list Service_Request_Form_Report
+		{
+			displayName = "Service_Request_Form Report"
+			show all rows from Service_Request_Form    
+			(
+				Name 
+				Email
+				Address 
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Phone_Number as "Phone"
+				(
+					displayformat = plainnumber 
+				)
+				Owner_Name  as "Owner Name (first name)"
+				Vehicle_Registration_Number as "Vehicle Registration Number"
+				Vehicle_Type as "Vehicle Type"
+				Email_Address as "Email Address"
+				Contact as "Contact Number"
+				(
+					displayformat = plainnumber 
+				)
+				Pickup_Address  as "Pickup Address"
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Odometer_Reading as "Odometer Reading"
+				Service_Type as "Service Type"
+				Additonal_Service as "Additonal Services"
+				Issue_Description as "Issue Description"
+				Preferred_Service_Date as "Preferred Service Date"
+				Preferred_Dropoff_Time as "Preferred Drop-off Time"
+				Authorize_Estimate_And_Repair as "Autherization Checkbox"
+				Vehicle_Insurance_URL as "Vehicle Insurance URL"
+				Owner_Digital_Signature as "Owner Digital Signature"
+				ID
+			)
+			filters
+			(
+				Service_Type
+				Preferred_Service_Date
+			)
+			sort by
+			(
+				Vehicle_Type custom
+			)
+		}
+		default list All_Ai_Fields
+		{
+			displayName = "All Ai Fields"
+			show all rows from AI_Fields    
+			(
+				Image
+				OCR
+				File_upload as "File upload"
+				OCR1 as "OCR"
+				Feedback_analysis as "Feedback analysis"
+				Sentiment as "Sentiment analysis through feedback"
+				Paragraph_analysis as "Paragraph analysis"
+				Keyword
+				object_detection
+				Object_Detection1 as "Object Detection"
+				SERVICE_HISTORY as "SERVICE HISTORY"
+				SOLUTION_USED as "SOLUTION USED"
+				VEHICAL_COMPANY as "VEHICAL COMPANY"
+				COMMON_PROBLEM_Prediction as "COMMON PROBLEM Prediction"
+			)
+		}
+		list Full_Service_Requests_Report
+		{
+			displayName = "Full_Service_Requests_Report"
+			show all rows from Service_Request_Form    
+			(
+				Name 
+				Email
+				Address 
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Phone_Number as "Phone"
+				(
+					displayformat = plainnumber 
+				)
+				Owner_Name  as "Owner Name (first name)"
+				Vehicle_Registration_Number as "Vehicle Registration Number"
+				Vehicle_Type as "Vehicle Type"
+				Vehicle_Insurance_URL as "Vehicle Insurance URL"
+				Email_Address as "Email Address"
+				Contact as "Contact Number"
+				(
+					displayformat = plainnumber 
+				)
+				Pickup_Address  as "Pickup Address"
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Owner_Digital_Signature as "Owner Digital Signature"
+				Odometer_Reading as "Odometer Reading"
+				Service_Type as "Service Type"
+				Additonal_Service as "Additonal Services"
+				Issue_Description as "Issue Description"
+				Preferred_Service_Date as "Preferred Service Date"
+				Preferred_Dropoff_Time as "Preferred Drop-off Time"
+				Authorize_Estimate_And_Repair as "Autherization Checkbox"
+			)
+		}
+	}
+	pages
+	{
+		page Graphical_Visuals
+		{
+			displayname = "Graphical_Visuals"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Chart'\n\n\ttype = 'Column'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Service_Request_Form'\n\txfield = 'Service_Type'\n\tyfields = 'count:Service_Type'\n\tquickFilters = 'Service_Type'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\ttype = 'Pie'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Service_Request_Form'\n\txfield = 'Preferred_Service_Date'\n\tyfields = 'count:Preferred_Service_Date'\n/>\n\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Validate_Odometer_Reading as "Validate Odometer Reading"
+			{
+				type =  form
+				form = Service_Request_Form
+
+				record event = on add
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Odometer_Reading <= 0)
+										{
+											alert "Odometer reading must be greater than 0.";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Send_Service_Request_Ackn as "Send Service Request Acknowledgement"
+			{
+				type =  form
+				form = Service_Request_Form
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						sendmail
+						(
+							from : "zoho.adminuserid"
+							to : Email_Address
+							subject : "Vehicle Service Request Received"
+							message : "<div>Dear Customer, <br></div><div><br></div><div>Your vehicle service request has been successfully received.<br></div><div><br></div><div>Vehicle Registration:&nbsp;${Vehicle_Registration_Number}<br></div><div>Service Type:&nbsp;${Service_Type}<br></div><div>Preferred Service Date:&nbsp;${Preferred_Service_Date}<br></div><div>Preferred Drop-off Time:&nbsp;${Preferred_Dropoff_Time}<br></div><div><br></div><div>Our service center will review your request and contact you regarding the service.<br></div><div><br></div><div>Thank you,<br></div><div>Vehicle Service Center<br></div>"
+						)
+					}
+				}
+
+			}
+		}
+
+
+
+
+		blueprint
+		{
+    			Service_type as "Service_type"
+    			{
+        			type = Blueprint
+        			form = Service_Request_Form
+        			start
+        			{
+        			}
+        			stages
+        			{
+        			}
+        			transitions
+        			{
+        			}
+    			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+
+	web
+	{
+		forms
+		{
+			form AI_Fields
+			{
+				label placement = left
+			}
+			form Service_Request_Form
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report Service_Request_Form_Report
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+							fields
+							(
+								Owner_Name as "Owner Name (first name)"
+								Vehicle_Type as "Vehicle Type"
+								Vehicle_Registration_Number as "Vehicle Registration Number"
+								ID
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Name
+								Email
+								Address
+								Phone_Number as "Phone"
+								Owner_Name as "Owner Name (first name)"
+								Vehicle_Registration_Number as "Vehicle Registration Number"
+								Vehicle_Type as "Vehicle Type"
+								Email_Address as "Email Address"
+								Contact as "Contact Number"
+								Pickup_Address as "Pickup Address"
+								Odometer_Reading as "Odometer Reading"
+								Service_Type as "Service Type"
+								Additonal_Service as "Additonal Services"
+								Issue_Description as "Issue Description"
+								Preferred_Service_Date as "Preferred Service Date"
+								Preferred_Dropoff_Time as "Preferred Drop-off Time"
+								Authorize_Estimate_And_Repair as "Autherization Checkbox"
+								Vehicle_Insurance_URL as "Vehicle Insurance URL"
+								Owner_Digital_Signature as "Owner Digital Signature"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Ai_Fields
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+							fields
+							(
+								Image
+								OCR
+								File_upload as "File upload"
+								OCR1 as "OCR"
+								Feedback_analysis as "Feedback analysis"
+								Sentiment as "Sentiment analysis through feedback"
+								Paragraph_analysis as "Paragraph analysis"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Image
+								OCR
+								File_upload as "File upload"
+								OCR1 as "OCR"
+								Feedback_analysis as "Feedback analysis"
+								Sentiment as "Sentiment analysis through feedback"
+								Paragraph_analysis as "Paragraph analysis"
+								Keyword
+								object_detection
+								Object_Detection1 as "Object Detection"
+								SERVICE_HISTORY as "SERVICE HISTORY"
+								SOLUTION_USED as "SOLUTION USED"
+								VEHICAL_COMPANY as "VEHICAL COMPANY"
+								COMMON_PROBLEM_Prediction as "COMMON PROBLEM Prediction"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Full_Service_Requests_Report
+			{
+				quickview
+				(
+					layout
+					(
+						displaylayout = "classic"
+						datablock1
+						(
+							fields
+							(
+								Name
+								Email
+								Address
+								Phone_Number as "Phone"
+								Owner_Name as "Owner Name (first name)"
+								Vehicle_Registration_Number as "Vehicle Registration Number"
+								Vehicle_Type as "Vehicle Type"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Name
+								Email
+								Address
+								Phone_Number as "Phone"
+								Owner_Name as "Owner Name (first name)"
+								Vehicle_Registration_Number as "Vehicle Registration Number"
+								Vehicle_Type as "Vehicle Type"
+								Vehicle_Insurance_URL as "Vehicle Insurance URL"
+								Email_Address as "Email Address"
+								Contact as "Contact Number"
+								Pickup_Address as "Pickup Address"
+								Owner_Digital_Signature as "Owner Digital Signature"
+								Odometer_Reading as "Odometer Reading"
+								Service_Type as "Service Type"
+								Additonal_Service as "Additonal Services"
+								Issue_Description as "Issue Description"
+								Preferred_Service_Date as "Preferred Service Date"
+								Preferred_Dropoff_Time as "Preferred Drop-off Time"
+								Authorize_Estimate_And_Repair as "Autherization Checkbox"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Service_Request_Form
+				{
+					displayname = "Service_Request_Form"
+					icon = "tech-desktop"
+					form  Service_Request_Form
+					{
+						icon = "tech-desktop"
+					}
+					report Service_Request_Form_Report
+					{
+						icon = "tech-desktop"
+					}
+					report Full_Service_Requests_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section Ai_Fields
+				{
+					displayname = "Ai Fields"
+					icon = "sport-soccer-field"
+					form  AI_Fields
+					{
+						icon = "sport-soccer-field"
+					}
+					report All_Ai_Fields
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Graphical_Visuals
+				{
+					displayname = "Graphical_Visuals"
+					icon = "tech-desktop"
+					page Graphical_Visuals
+					{
+						icon = "tech-desktop"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+				}
+			}
+		}
+		customize
+		{
+			layout
+			{
+				theme = "theme_7"
+			}
+			font = "lato"
+			color options
+			{
+				color = "12"
+			}
+			logo
+			{
+				preference = "app_icon"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form AI_Fields
+			{
+				label placement = auto
+			}
+			form Service_Request_Form
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form AI_Fields
+			{
+				label placement = auto
+			}
+			form Service_Request_Form
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = lightred
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
